@@ -1,0 +1,11 @@
+<%- include("partials/header.ejs") %>
+<a href="/campgrounds/new" id="newCamp"><button class="btn-info">Add new campground</button></a>
+<div class="container">
+    <% campgrounds.forEach(function(camp){%>
+    <div class="camp">
+        <h2><%= camp.name %></h2>
+        <img src= "<%= camp.imgUrl %>" alt="Check your connection" class="img-container">
+    </div>
+    <% }); %>
+</div>
+<%- include("partials/footer.ejs") %>
