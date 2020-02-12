@@ -19,6 +19,18 @@ var campgrounds = [
 	{
 		name: 'Lancy Down',
 		imgUrl: 'https://bit.ly/2Sc0FAL'
+	},
+	{
+		name: 'Salmon Creek',
+		imgUrl: 'https://bit.ly/3882Lap'
+	},
+	{
+		name: 'Dalai Hills',
+		imgUrl: 'https://bit.ly/2SdPJT2'
+	},
+	{
+		name: 'Lancy Down',
+		imgUrl: 'https://bit.ly/2Sc0FAL'
 	}
 ];
 
@@ -29,6 +41,7 @@ app.get('/', function(req, res) {
 
 // campgrounds route will give the list of all the campgrounds in our database
 app.get('/campgrounds', function(req, res) {
+	console.log(campgrounds.length);
 	res.render('campgrounds', {
 		campgrounds: campgrounds
 	});

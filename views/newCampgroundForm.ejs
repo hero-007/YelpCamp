@@ -1,8 +1,16 @@
 <%- include ("partials/header.ejs") %>
-<form action="/campgrounds" method="POST">
-    <input type="text" name="name" placeholder="Enter campground name"><br>
-    <input type="text" name="imgURL" placeholder="Enter image URL"><br>
-    <button type="submit" class="btn-warning">Submit Campground</button>
-</form>
-<a href="/campgrounds"><button class="btn-success">Go Back</button></a>
+<div class="container mx-auto my-5" style="width: 40%;">
+    <form action="/campgrounds" method="POST">
+        <div class="form-group">
+            <label for="campgroundName">Campground Name</label>
+            <input type="text" class="form-control" id="campgroundName" placeholder="Enter campground name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="imgurl">Image URL</label>
+            <input type="text" class="form-control" id="imgurl" placeholder="Enter image URL" name="imgURL">
+        </div>
+        <button type="submit" class="btn btn-warning mb-3 mt-5 btn-block">Submit Campground</button>
+        <a href="/campgrounds"><button class="btn btn-success btn-block">Go Back</button></a>
+    </form>
+</div>
 <%- include("partials/footer.ejs") %>
