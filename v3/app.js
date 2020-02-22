@@ -7,7 +7,9 @@ var Comments = require('./models/comments-model');
 var seedDB = require('./seed');
 
 // seed the database everytime server starts
+
 seedDB();
+
 // connnect to mongoDB database
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true });
 
