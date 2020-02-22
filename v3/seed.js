@@ -33,6 +33,12 @@ var campData = [
 ];
 // function for exporting
 function seedDB() {
+	// remove everything from the comments db
+	Comments.deleteMany({}, function(err) {
+		if (err) console.log(err);
+		else console.log('All Comments removed successfully');
+	});
+
 	// remove everything related to campground from the DB
 	Campgrounds.deleteMany({}, function(err) {
 		if (err) console.log(err);
@@ -44,6 +50,7 @@ function seedDB() {
 					if (err) {
 						console.log(err);
 					} else {
+						// also remove the old comments
 						// add sample comments to each of the camps
 						Comments.create(
 							{

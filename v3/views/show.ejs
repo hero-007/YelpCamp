@@ -2,4 +2,11 @@
 <h1><%= camp.name %></h1>
 <img src="<%= camp.img %>" alt="Check your internet Connection">
 <h5><%= camp.description %></h5>
+<h3>Comments</h3>
+<% camp.comments.forEach(function(comment){  %>
+    <div>
+        <h4><%= comment.content %></h4>
+        <h5><%= comment.author %></h5>
+    </div>
+<% }); %>
 <%- include("partials/footer.ejs") %>

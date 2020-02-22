@@ -75,7 +75,7 @@ app.get('/campgrounds/:id', function(req, res) {
 	var objId = req.params.id;
 	Campground.findById(objId).populate('comments').exec(function(err, camp) {
 		if (err) {
-			console.log('Error Occured : ' + err);
+			console.log('Error Occured in SHOW route: ' + err);
 			res.redirect('/campgrounds');
 		} else {
 			console.log(camp);
