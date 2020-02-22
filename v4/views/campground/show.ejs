@@ -1,4 +1,4 @@
-<%- include("partials/header.ejs") %>
+<%- include("../partials/header.ejs") %>
 <h1><%= camp.name %></h1>
 <img src="<%= camp.img %>" alt="Check your internet Connection">
 <h5><%= camp.description %></h5>
@@ -9,4 +9,5 @@
         <h5><%= comment.author %></h5>
     </div>
 <% }); %>
-<%- include("partials/footer.ejs") %>
+<a href="/campgrounds/<%= camp._id %>/comments/new"><div class="btn btn-primary btn-info">Add Comment</div></a>
+<%- include("../partials/footer.ejs") %>
