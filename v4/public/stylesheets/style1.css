@@ -29,3 +29,7 @@ footer {
 	padding: 10px;
 	background-color: orange;
 }
+
+.thumbnail .caption-full {
+	padding: 9px;
+}

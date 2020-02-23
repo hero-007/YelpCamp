@@ -13,7 +13,7 @@ var seedDB = require('./seed');
 // connnect to mongoDB database
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -87,47 +87,40 @@ app.get('/campgrounds/:id', function(req, res) {
 	});
 });
 
-
 // ############################# Comments Route #####################################
-app.get("/campgrounds/:id/comments/new",function(req,res){
+app.get('/campgrounds/:id/comments/new', function(req, res) {
 	// render a form for adding a new comment
 	var campID = req.params.id;
-	res.render("./comments/createComment",{
-		campID:campID
+	res.render('./comments/createComment', {
+		campID: campID
 	});
 });
 
-app.post("/campgrounds/:id/comments",function(req,res){
+app.post('/campgrounds/:id/comments', function(req, res) {
 	// create a new comment in the database and add it to DB
 	var postID = req.params.id;
 	var newComment = {
-		content:req.body.commentContent,
-		author:req.body.commentAuthor
+		content: req.body.commentContent,
+		author: req.body.commentAuthor
 	};
 
-	Campground.findById(postID,function(err,foundCampground){
-		if(err)
-		{
+	Campground.findById(postID, function(err, foundCampground) {
+		if (err) {
 			console.log(err);
-		}
-		else{
+		} else {
 			// create new comment and add it to foundCampground
-			Comments.create(newComment,function(err,createdComment){
-				if(err){
+			Comments.create(newComment, function(err, createdComment) {
+				if (err) {
 					console.log(err);
-				}
-				else{
+				} else {
 					foundCampground.comments.push(createdComment);
 					foundCampground.save();
 					res.redirect(`/campgrounds/${postID}`);
 				}
 			});
-
 		}
 	});
 });
-
-
 
 // Server listening for request on port - 3000
 app.listen(3000, function(req, res) {
