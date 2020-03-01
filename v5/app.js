@@ -4,10 +4,10 @@ var mongoose = require('mongoose');
 var app = express();
 var Campground = require('./models/campgrounds-model');
 var Comments = require('./models/comments-model');
-var passport = require("passport");
-var User = require("./models/user-model");
-var LocalStrategy = require("passport-local");
-var passportLocalMongoose = require("passport-local-mongoose");
+var passport = require('passport');
+var User = require('./models/user-model');
+var LocalStrategy = require('passport-local');
+var passportLocalMongoose = require('passport-local-mongoose');
 var seedDB = require('./seed');
 
 // seed the database everytime server starts
@@ -22,20 +22,25 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
 	require('express-session')({
-		secret:"Hero is the best",
+		secret: 'Hero is the best',
 		resave: false,
 		saveUninitialized: false
 	})
 );
 
-// initializing passport 
+// initializing passport
 app.use(passport.initialize());
 app.use(passport.session());
-// serialize and deserialize data from the session using the method provided by passport 
+// serialize and deserialize data from the session using the method provided by passport
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// put the loggedIn user info inside res.locals
+app.use(function(req, res, next) {
+	res.locals.currentUser = req.user;
+	next();
+});
 // Landing page of YelpCamp - index.ejs
 app.get('/', function(req, res) {
 	res.render('landing');
@@ -59,7 +64,7 @@ app.get('/campgrounds', function(req, res) {
 });
 
 // post route for adding campground
-app.post('/campgrounds', function(req, res) {
+app.post('/campgrounds', isLoggedIn, function(req, res) {
 	// fetch data sent by the user
 	// add the data to campgrounds array
 	// redirect to the /campgrounds get route
@@ -85,7 +90,7 @@ app.post('/campgrounds', function(req, res) {
 });
 
 // get route for rendering form that allows you to enter new campgrounds
-app.get('/campgrounds/new', function(req, res) {
+app.get('/campgrounds/new', isLoggedIn, function(req, res) {
 	// this route will render a form
 	res.render('./campground/newCampgroundForm');
 });
@@ -107,15 +112,16 @@ app.get('/campgrounds/:id', function(req, res) {
 });
 
 // ############################# Comments Route #####################################
-app.get('/campgrounds/:id/comments/new', function(req, res) {
+app.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res) {
 	// render a form for adding a new comment
+	// allow to add comments only if user is logged in
 	var campID = req.params.id;
 	res.render('./comments/createComment', {
 		campID: campID
 	});
 });
 
-app.post('/campgrounds/:id/comments', function(req, res) {
+app.post('/campgrounds/:id/comments', isLoggedIn, function(req, res) {
 	// create a new comment in the database and add it to DB
 	var postID = req.params.id;
 	var newComment = {
@@ -141,60 +147,66 @@ app.post('/campgrounds/:id/comments', function(req, res) {
 	});
 });
 
-// ################ Authentication Routes ################## // 
+// ################ Authentication Routes ################## //
 
 // REGISTER ROUTES
-app.get("/register",function(req,res){
-	// render register form 
-	res.render("./user/register");
+app.get('/register', function(req, res) {
+	// render register form
+	res.render('./user/register');
 });
 
-app.post("/register",function(req,res){
+app.post('/register', function(req, res) {
 	// insert new user to DB
-	User.register(new User({
-		username : req.body.username
-	}), req.body.password, function(err, savedUser){
-		if(err)
-		{
-			// redirect user to register page again 
-			console.log(err);
-			return res.redirect("/register");
+	User.register(
+		new User({
+			username: req.body.username
+		}),
+		req.body.password,
+		function(err, savedUser) {
+			if (err) {
+				// redirect user to register page again
+				console.log(err);
+				return res.redirect('/register');
+			}
+			// Otherwise add the user to DB
+			passport.authenticate('local')(req, res, function() {
+				// this will login the user
+				res.redirect('/campgrounds');
+			});
 		}
-		// Otherwise add the user to DB
-		passport.authenticate("local")(req,res,function(){
-			// this will login the user 
-			res.redirect("/campgrounds");
-		});
-	})
+	);
 });
 
 // LOGIN ROUTES
-app.get("/login",function(req,res){
-	// render login form 
-	res.render("./user/login");
+app.get('/login', function(req, res) {
+	// render login form
+	res.render('./user/login');
 });
 
-app.post("/login",passport.authenticate("local",{
-	successRedirect: "/campgrounds",
-	failureRedirect: "/login"
-}),function(req,res){
-	// login user 
-});
+app.post(
+	'/login',
+	passport.authenticate('local', {
+		successRedirect: '/campgrounds',
+		failureRedirect: '/login'
+	}),
+	function(req, res) {
+		// login user
+	}
+);
 
-// LOGOUT ROUTE 
-app.get("/logout",function(req,res){
+// LOGOUT ROUTE
+app.get('/logout', function(req, res) {
 	// logout user from the current session
 	req.logout();
-	res.redirect("/campgrounds");
+	res.redirect('/campgrounds');
 });
 // isLoggedIn - middle-ware to check if user is logged in or not
-function isLoggedIn(req,res,next){
-	if(req.isAuthenticated())
-	{
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated()) {
 		return next();
 	}
-	// res.redirect('/login');
-}	
+	res.redirect('/login');
+}
 // Server listening for request on port - 3000
 app.listen(3000, function(req, res) {
 	console.log('Server Started Successfully !!!');
