@@ -1,0 +1,17 @@
+<%- include("../partials/header.ejs") %>
+<div class="container mx-auto my-5" style="width: 40%;">
+    <form action="/campgrounds/<%= campID %>/comments" method="POST">
+        <div class="form-group">
+            <label for="commentContent">Comment</label>
+            <input type="text" class="form-control" id="commentContent" placeholder="Enter your comment here...." name="commentContent" required>
+        </div>
+        <div class="form-group">
+            <label for="commentAuthor">Author</label>
+            <input type="text" class="form-control" id="commentAuthor" placeholder="Enter name of the Author" name="commentAuthor" required>
+        </div>
+        <button type="submit" class="btn btn-warning mb-3 mt-5 btn-block">Submit Comment</button>
+    </form>
+    <a href="/campgrounds/<%= campID %>"><button class="btn btn-success btn-block">Go Back</button></a>
+</div>
+
+<%- include("../partials/footer.ejs") %>

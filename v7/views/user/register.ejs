@@ -1,0 +1,18 @@
+<%- include("../partials/header.ejs") %>
+
+<!-- Register Form Here -->
+<div class="container mx-auto my-5" style="width: 40%;">
+    <form action="/register" method="POST">
+        <div class="form-group">
+            <label for="register-username">Username</label>
+            <input type="text" class="form-control" id="register-username" placeholder="Username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" class="form-control" id="register-password" placeholder="Password" name="password">
+        </div>
+        <button type="submit" class="btn btn-warning mb-3 mt-5 btn-block">Register User</button>
+    </form>
+    <a href="/campgrounds"><button class="btn btn-success btn-block">Go Back</button></a>
+</div>
+<%- include("../partials/footer.ejs") %>
