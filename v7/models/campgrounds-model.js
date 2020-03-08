@@ -10,7 +10,14 @@ var campgroundSchema = mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: Comments
 		}
-	]
+	],
+	author: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		username: String
+	}
 });
 
 // create model of campground collection from the above schema

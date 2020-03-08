@@ -19,6 +19,7 @@
                 <span class="text-primary"><strong><%= camp.name %></strong></span>
                 <span class="float-right"><strong>Price: $9/night</strong></span>
             </div>
+            <p><em><strong>Submitted By: </strong> <%= camp.author.username %></em></p>
             <div class="caption-full">
                 <p><%= camp.description %></p>
             </div>
@@ -31,7 +32,7 @@
                 <div>
                     <%= comment.content %>
                     <span class="float-right">10 days ago</span>
-                    <p><strong><%= comment.author %></strong></p>
+                    <p><strong><%= comment.author.username %></strong></p>
                 </div>
                 <hr class="mx-3">
             <% }); %>

@@ -27,21 +27,26 @@ router.post('/', isLoggedIn, function(req, res) {
 	var name = req.body['name'];
 	var imgURL = req.body['imgURL'];
 	var desc = req.body['description'];
+	var campAuthor = {
+		id: req.user._id,
+		username: req.user.username
+	};
+
 	var obj = {
 		name: name,
 		img: imgURL,
-		description: desc
+		description: desc,
+		author: campAuthor
 	};
 
-	// save obj inside campgrounds collection
 	Campground.create(obj, function(err, camp) {
 		if (err) {
 			console.log('Failed to save object in the database');
 			console.log(err);
 		} else {
-			console.log(camp + ' \n saved in the database');
+			// console.log(camp + ' \n saved in the database');
 		}
-		res.redirect('./campground/campgrounds');
+		res.redirect('/campgrounds');
 	});
 });
 
