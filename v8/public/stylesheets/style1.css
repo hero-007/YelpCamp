@@ -1,0 +1,30 @@
+.camp {
+	width: 30%;
+	height: 200px;
+	float: left;
+	text-align: center;
+	padding: 10px 5px;
+	background-color: lightgreen;
+	margin: 1.66% 10px;
+	border-radius: 15px;
+}
+
+.img-container {
+	width: 150px;
+	height: 100px;
+	padding-top: 20px;
+	border-radius: 10px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	background-color: orange;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+}
