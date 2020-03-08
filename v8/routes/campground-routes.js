@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Campground = require('../models/campgrounds-model');
+var Comment = require("../models/comments-model");
 
 // campgrounds route will give the list of all the campgrounds in our database
 router.get('/', function(req, res) {
@@ -31,7 +32,7 @@ router.post('/', isLoggedIn, function(req, res) {
 		id: req.user._id,
 		username: req.user.username
 	};
-
+	 
 	var obj = {
 		name: name,
 		img: imgURL,
@@ -71,6 +72,81 @@ router.get('/:id', function(req, res) {
 		}
 	});
 });
+
+// DELETE ROUTE - delete a campground 
+router.delete("/:id",checkCampgroundOwnership,function(req,res){
+	var campId = req.params.id;
+
+	Campground.findByIdAndRemove(campId, function(err,removedCampground){
+		if(err)
+		{
+			console.log(err);
+			return res.redirect("/campgrounds/"+campId);
+		}
+
+		Comment.deleteMany({_id:{$in : removedCampground.comments}}, function(err){
+			if(err)
+			{
+				console.log(err);
+				return res.redirect("/campgrounds");
+			}
+			res.redirect("/campgrounds");
+		});
+	});
+});
+
+// EDIT ROUTE - load a form for editing campground
+router.get("/:id/edit",checkCampgroundOwnership,function(req,res){
+	var campId = req.params.id;
+	Campground.findById(campId,function(err,foundCamp){
+		if(err)
+		{
+			console.log(err);
+			return res.redirect("/campgrounds/"+campId);
+		}
+		// also pass the info of foundCamp
+		console.log(foundCamp);
+
+		res.render("./campground/editCampground",{
+			campInfo: foundCamp
+		});
+	});
+});
+
+// UPDATE ROUTE - Save the updated campground into the database
+router.put("/:id",checkCampgroundOwnership,function(req,res){
+	var campId = req.params.id;
+	// find camp by its ID and then update it with new content 
+	Campground.findByIdAndUpdate(campId,req.body.updatedCamp,function(err,savedCamp){
+		if(err)
+		{
+			console.log(err);
+			return res.redirect("/campgrounds/"+campId);
+		}
+		res.redirect("/campgrounds/"+campId);
+	});
+});	
+
+// function to check if user is authorized to perform update and delete operation
+function checkCampgroundOwnership(req,res,next){
+	if(req.isAuthenticated())
+	{
+		// user is logged in
+		var campId = req.params.id;
+		Campground.findById(campId,function(err,foundCamp){
+			if(err)
+			{
+				res.redirect("back");
+			}
+			else{
+				if(foundCamp.author.id.equals(req.user.id)){
+					return next();
+				}
+				return res.redirect("back");
+			}
+		});
+	}
+}
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {

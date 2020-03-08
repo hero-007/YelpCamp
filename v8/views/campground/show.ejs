@@ -19,10 +19,21 @@
                 <span class="text-primary"><strong><%= camp.name %></strong></span>
                 <span class="float-right"><strong>Price: $9/night</strong></span>
             </div>
-            <p><em><strong>Submitted By: </strong> <%= camp.author.username %></em></p>
+            <div>
+                <span><em><strong>Submitted By: </strong> <%= camp.author.username %></em></span>
+            </div>
             <div class="caption-full">
                 <p><%= camp.description %></p>
             </div>
+            <% if(currentUser && camp.author.id.equals(currentUser._id)) { %>
+                <div>
+                    <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-primary btn-warning">Edit Campground</a>
+                    
+                    <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button class="btn btn-primary btn-danger">Delete Campground</button>
+                    </form>
+                </div>
+            <% } %>
         </div>
         <div class="card card-body bg-light mt-4">
             <div class="text-right mb-3">

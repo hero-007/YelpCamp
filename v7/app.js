@@ -6,6 +6,8 @@ var passport = require('passport');
 var User = require('./models/user-model');
 var LocalStrategy = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
+var methodOverride = require("method-override");
+
 // var seedDB = require('./seed');
 
 // seed the database everytime server starts
@@ -30,6 +32,7 @@ app.use(
 		saveUninitialized: false
 	})
 );
+app.use(methodOverride("_method"));
 
 // initializing passport
 app.use(passport.initialize());

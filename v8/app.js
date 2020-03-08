@@ -6,6 +6,7 @@ var passport = require('passport');
 var User = require('./models/user-model');
 var LocalStrategy = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
+var methodOverride = require("method-override");
 // var seedDB = require('./seed');
 
 // seed the database everytime server starts
@@ -44,6 +45,9 @@ app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	next();
 });
+
+// use method override 
+app.use(methodOverride("_method"));
 
 // using the above required routes
 app.use(indexRoutes);
