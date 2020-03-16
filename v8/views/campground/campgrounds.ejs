@@ -5,14 +5,14 @@
         <p class="display-4">Welcome to YelpCamp</p>
         <p class="lead">YelpCamp is your goto site for finding and registering the best campgrounds near buy.</p>
         <hr class="my-4">
-        <a href="campgrounds/new"><button class="btn btn-success btn-lg">Register Campgrounds</button></a>
+        <a href="campgrounds/new"><button class="btn btn-success btn-lg">Add New Campgrounds</button></a>
     </div>
 </div>
 <div class="container">
     <div class="row d-flex justify-content-around">
         <% campgrounds.forEach(function(camp){%>
         <div class="card col-lg-3 col-md-5 col-sm-11 m-3" style="width: 15rem;">
-            <img src= "<%= camp.img %>" alt="Check your connection" class="card-img-top img-thumbnail">
+            <img src= "<%= camp.img %>" alt="Check your connection" class="card-img-top">
             <h5 class="card-title my-2" ><%= camp.name %></h5>
             <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
             <a href="/campgrounds/<%= camp._id %>"><button class="btn btn-primary btn-md btn-warning">Lets Explore!</button></a>

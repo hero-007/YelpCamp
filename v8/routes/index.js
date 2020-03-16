@@ -27,11 +27,13 @@ router.post('/register', function(req, res) {
 			if (err) {
 				// redirect user to register page again
 				console.log(err);
+				req.flash("error",err.message);
 				return res.redirect('/register');
 			}
 			// Otherwise add the user to DB
 			passport.authenticate('local')(req, res, function() {
 				// this will login the user
+				req.flash("success","Sucessfully Registered new user");
 				res.redirect('/campgrounds');
 			});
 		}
@@ -59,14 +61,9 @@ router.post(
 router.get('/logout', function(req, res) {
 	// logout user from the current session
 	req.logout();
+	req.flash("success","Logged you out!!!");
 	res.redirect('/campgrounds');
 });
-// isLoggedIn - middle-ware to check if user is logged in or not
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/login');
-}
+
 
 module.exports = router;

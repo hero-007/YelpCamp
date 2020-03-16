@@ -7,6 +7,8 @@ var User = require('./models/user-model');
 var LocalStrategy = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
 var methodOverride = require("method-override");
+var flash = require("connect-flash");
+
 // var seedDB = require('./seed');
 
 // seed the database everytime server starts
@@ -20,6 +22,9 @@ var indexRoutes = require('./routes/index');
 
 // connnect to mongoDB database
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// use connect-flash 
+app.use(flash());
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
@@ -43,8 +48,11 @@ passport.deserializeUser(User.deserializeUser());
 // put the loggedIn user info inside res.locals
 app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
 	next();
 });
+
 
 // use method override 
 app.use(methodOverride("_method"));

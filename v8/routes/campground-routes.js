@@ -45,10 +45,13 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 		if (err) {
 			console.log('Failed to save object in the database');
 			console.log(err);
+			req.flash("error","Failed to save Campground !!!");
+			res.redirect('/campgrounds');
 		} else {
 			// console.log(camp + ' \n saved in the database');
+			req.flash("success","Saved Campground Successfully!!!");
+			res.redirect('/campgrounds');
 		}
-		res.redirect('/campgrounds');
 	});
 });
 
@@ -81,6 +84,7 @@ router.delete('/:id', middleware.checkCampgroundOwnership, function(req, res) {
 	Campground.findByIdAndRemove(campId, function(err, removedCampground) {
 		if (err) {
 			console.log(err);
+			req.flash("error","Unable to delete campground!!!");
 			return res.redirect('/campgrounds/' + campId);
 		}
 
@@ -89,6 +93,8 @@ router.delete('/:id', middleware.checkCampgroundOwnership, function(req, res) {
 				console.log(err);
 				return res.redirect('/campgrounds');
 			}
+
+			req.flash("success","Campground deleted sucessfully!!!");
 			res.redirect('/campgrounds');
 		});
 	});
@@ -118,8 +124,10 @@ router.put('/:id', middleware.checkCampgroundOwnership, function(req, res) {
 	Campground.findByIdAndUpdate(campId, req.body.updatedCamp, function(err, savedCamp) {
 		if (err) {
 			console.log(err);
+			req.flash("error","Unable to find the Campground!!!");
 			return res.redirect('/campgrounds/' + campId);
 		}
+		req.flash("success","Campground edited sucessfully");
 		res.redirect('/campgrounds/' + campId);
 	});
 });
