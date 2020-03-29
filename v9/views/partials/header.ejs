@@ -19,13 +19,20 @@
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/campgrounds/new">Register Campgrounds</a>
+                        <a class="nav-link" href="/campgrounds/new">Register</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/campgrounds">Explore Campgrounds</a>
+                        <a class="nav-link" href="/campgrounds">Explore</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
+                        <!-- Adding fuzzy search to YelpCamp -->
+                        <form class="form-inline mx-lg-2" action="/campgrounds" method="GET">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchQuery">
+                            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        <!-- Search code ends here -->
+
                         <% if(!currentUser) { %>
                             <a href="/login"><li class="btn btn-secondary btn-success">LogIn</li></a>
                             <a href="/register"><li class="btn btn-secondary btn-info ml-2">SignUp</li></a>

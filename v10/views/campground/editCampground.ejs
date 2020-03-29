@@ -1,0 +1,20 @@
+<%- include ("../partials/header.ejs") %>
+<div class="container mx-auto my-5" style="width: 40%;">
+    <form action="/campgrounds/<%= campInfo._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="campgroundName">Campground Name</label>
+            <input type="text" class="form-control" id="campgroundName" placeholder="Enter campground name" name="updatedCamp[name]" value="<%= campInfo.name %>">
+        </div>
+        <div class="form-group">
+            <label for="img">Campground Image</label>
+            <input type="file" class="form-control" id="img"  name="campgroundImage" accept="Image/*">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description of Campground" name="updatedCamp[description]" value="<%= campInfo.description %>">
+        </div>
+        <button type="submit" class="btn btn-warning mb-3 mt-5 btn-block">Update Campground</button>
+    </form>
+    <a href="/campgrounds"><button class="btn btn-success btn-block">Go Back</button></a>
+</div>
+<%- include("../partials/footer.ejs") %>

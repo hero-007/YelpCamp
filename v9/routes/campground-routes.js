@@ -7,18 +7,37 @@ var middleware = require('../middleware');
 // campgrounds route will give the list of all the campgrounds in our database
 router.get('/', function(req, res) {
 	// fetch all the campgrounds from the db and create a object named with campgrounds using the objects inside the retrieved objects
-	Campground.find({}, function(err, camps) {
-		if (err) {
-			var campgrounds = {};
-			res.render('./campground/campgrounds', {
-				campgrounds: campgrounds
-			});
-		} else {
-			res.render('./campground/campgrounds', {
-				campgrounds: camps
-			});
-		}
-	});
+	if(req.query.searchQuery){
+		const regex = new RegExp(escapeRegex(req.query.searchQuery), 'gi');
+		console.log(regex);
+		Campground.find({"name": regex}, function(err, camps) {
+			if (err) {
+				var campgrounds = {};
+				res.render('./campground/campgrounds', {
+					campgrounds: campgrounds
+				});
+			} else {
+				res.render('./campground/campgrounds', {
+					campgrounds: camps
+				});
+			}
+		});
+	}	
+	else{
+		// Get all the campgrounds 
+		Campground.find({}, function(err, camps) {
+			if (err) {
+				var campgrounds = {};
+				res.render('./campground/campgrounds', {
+					campgrounds: campgrounds
+				});
+			} else {
+				res.render('./campground/campgrounds', {
+					campgrounds: camps
+				});
+			}
+		});
+	}
 });
 
 // post route for adding campground
@@ -131,5 +150,9 @@ router.put('/:id', middleware.checkCampgroundOwnership, function(req, res) {
 		res.redirect('/campgrounds/' + campId);
 	});
 });
+
+function escapeRegex(text) {
+	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;

@@ -1,0 +1,89 @@
+.camp {
+	width: 30%;
+	height: 200px;
+	float: left;
+	text-align: center;
+	padding: 10px 5px;
+	background-color: lightgreen;
+	margin: 1.66% 10px;
+	border-radius: 15px;
+}
+
+.img-container {
+	width: 150px;
+	height: 100px;
+	padding-top: 20px;
+	border-radius: 10px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	background-color: orange;
+}
+
+.card {
+	padding: 0px;
+}
+
+.card-content {
+	padding: 1rem;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+}
+
+.card-img-top {
+	height: 12rem;
+}
+
+#login-form {
+	width: 40%;
+}
+
+#register-form {
+	width: 40%;
+}
+
+@media (max-width: 768px) {
+	#login-button {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#signup-button {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#input-form {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+
+	#submit-button {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#navbarNav {
+		text-align: center;
+	}
+
+	#login-form {
+		width: 100%;
+	}
+
+	#register-form {
+		width: 100%;
+	}
+}
